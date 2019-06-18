@@ -27,20 +27,20 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.AbstractHandler;
-import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.util.ByteArrayOutputStream2;
 import org.eclipse.jetty.util.IO;
 
 public final class BenchmarkServer {
 
-    private final SelectChannelConnector connector;
     private final Server server;
+    private final ServerConnector connector;
 
     public BenchmarkServer(final int port) {
-        this.connector = new SelectChannelConnector();
-        this.connector.setPort(port);
         this.server = new Server();
+        this.connector = new ServerConnector(this.server);
+        this.connector.setPort(port);
         this.server.addConnector(this.connector);
         this.server.setHandler(new RandomDataHandler());
     }
