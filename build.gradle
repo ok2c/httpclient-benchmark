@@ -65,7 +65,6 @@ task benchmark(dependsOn: 'classes') {
     doLast {
 
         def agents = [
-                'HttpJRE',
                 'ApacheHttpClientV3',
                 'ApacheHttpClientV4',
                 'ApacheHttpAsyncClientV4',
