@@ -76,7 +76,7 @@ public class ApacheHttpClientV5 implements HttpAgent {
         this.mgr.setMaxTotal(2000);
         this.mgr.setDefaultMaxPerRoute(config.getConcurrency());
         this.mgr.setDefaultSocketConfig(SocketConfig.custom()
-                .setSoTimeout(Timeout.ofMicroseconds(config.getTimeout()))
+                .setSoTimeout(Timeout.ofMilliseconds(config.getTimeout()))
                 .build());
 
         final Stats stats = new Stats(config.getRequests(), config.getConcurrency());
@@ -112,8 +112,8 @@ public class ApacheHttpClientV5 implements HttpAgent {
 
             final HttpHost targetHost = new HttpHost(target.getScheme(), target.getHost(), target.getPort());
             final RequestConfig requestConfig = RequestConfig.custom()
-                    .setConnectTimeout(Timeout.ofMicroseconds(config.getTimeout()))
-                    .setResponseTimeout(Timeout.ofMicroseconds(config.getTimeout()))
+                    .setConnectTimeout(Timeout.ofMilliseconds(config.getTimeout()))
+                    .setResponseTimeout(Timeout.ofMilliseconds(config.getTimeout()))
                     .build();
 
             while (!this.stats.isComplete()) {
