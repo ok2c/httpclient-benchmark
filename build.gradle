@@ -4,6 +4,7 @@ plugins {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -21,7 +22,7 @@ versions.slf4j = '1.7.26'
 versions.commons_httpclient = '3.1'
 versions.httpclient4 = '4.5.9'
 versions.httpasyncclient4 = '4.1.4'
-versions.httpclient5 = '5.0-beta4'
+versions.httpclient5 = '5.0-beta7-SNAPSHOT'
 
 dependencies {
     compile "commons-cli:commons-cli:${versions.commons_cli}"

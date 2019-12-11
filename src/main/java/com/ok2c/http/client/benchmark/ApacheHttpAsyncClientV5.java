@@ -21,7 +21,6 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.Semaphore;
 
 import org.apache.hc.client5.http.async.methods.AbstractBinResponseConsumer;
-import org.apache.hc.client5.http.async.methods.AsyncRequestBuilder;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.async.CloseableHttpAsyncClient;
 import org.apache.hc.client5.http.impl.async.HttpAsyncClients;
@@ -34,9 +33,10 @@ import org.apache.hc.core5.http.HeaderElements;
 import org.apache.hc.core5.http.HttpException;
 import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.HttpResponse;
-import org.apache.hc.core5.http.config.H1Config;
+import org.apache.hc.core5.http.config.Http1Config;
 import org.apache.hc.core5.http.nio.AsyncRequestProducer;
 import org.apache.hc.core5.http.nio.entity.FileEntityProducer;
+import org.apache.hc.core5.http.nio.support.AsyncRequestBuilder;
 import org.apache.hc.core5.http2.HttpVersionPolicy;
 import org.apache.hc.core5.http2.config.H2Config;
 import org.apache.hc.core5.reactor.IOReactorConfig;
@@ -55,7 +55,7 @@ public class ApacheHttpAsyncClientV5 implements HttpAgent {
         this.httpclient = HttpAsyncClients.createMinimal(
                 HttpVersionPolicy.FORCE_HTTP_1,
                 H2Config.DEFAULT,
-                H1Config.custom()
+                Http1Config.custom()
                         .setBufferSize(8 * 1024)
                         .setChunkSizeHint(8 * 1024)
                         .build(),
@@ -174,11 +174,6 @@ public class ApacheHttpAsyncClientV5 implements HttpAgent {
             } else {
                 stats.failure(contentLen);
             }
-            return null;
-        }
-
-        @Override
-        public Void getResult() {
             return null;
         }
 

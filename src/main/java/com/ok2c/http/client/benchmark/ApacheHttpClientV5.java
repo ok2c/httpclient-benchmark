@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
-import org.apache.hc.client5.http.classic.methods.RequestBuilder;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
@@ -36,9 +35,10 @@ import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.HttpHost;
 import org.apache.hc.core5.http.config.CharCodingConfig;
-import org.apache.hc.core5.http.config.H1Config;
+import org.apache.hc.core5.http.config.Http1Config;
 import org.apache.hc.core5.http.io.SocketConfig;
 import org.apache.hc.core5.http.io.entity.FileEntity;
+import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.io.CloseMode;
 import org.apache.hc.core5.util.Timeout;
 import org.apache.hc.core5.util.VersionInfo;
@@ -52,7 +52,7 @@ public class ApacheHttpClientV5 implements HttpAgent {
         super();
         this.mgr = PoolingHttpClientConnectionManagerBuilder.create()
                 .setConnectionFactory(new ManagedHttpClientConnectionFactory(
-                        H1Config.custom()
+                        Http1Config.custom()
                                 .setBufferSize(8 * 1024)
                                 .setChunkSizeHint(8 * 1024)
                                 .build(),
@@ -117,11 +117,11 @@ public class ApacheHttpClientV5 implements HttpAgent {
                     .build();
 
             while (!this.stats.isComplete()) {
-                final RequestBuilder requestBuilder;
+                final ClassicRequestBuilder requestBuilder;
                 if (config.getFile() == null) {
-                    requestBuilder = RequestBuilder.get(target);
+                    requestBuilder = ClassicRequestBuilder.get(target);
                 } else {
-                    requestBuilder = RequestBuilder.put(target)
+                    requestBuilder = ClassicRequestBuilder.put(target)
                             .setEntity(new FileEntity(
                                     config.getFile(),
                                     config.getContentType() != null ? ContentType.parse(config.getContentType()) : null));
