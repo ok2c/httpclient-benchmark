@@ -67,10 +67,11 @@ task benchmark(dependsOn: 'classes') {
     doLast {
 
         def agents = [
-                'HttpJRE',
+                'JREHttpUrlConnection',
                 'ApacheHttpClientV3',
                 'ApacheHttpClientV4',
                 'ApacheHttpClientV5',
+                'JRE11HttpClient',
                 'JettyHttpClientV9',
                 'ApacheHttpAsyncClientV4',
                 'ApacheHttpAsyncClientV5',

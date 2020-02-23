@@ -24,9 +24,9 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 
-public class HttpJRE implements HttpAgent {
+public class JREHttpUrlConnection implements HttpAgent {
 
-    public HttpJRE() {
+    public JREHttpUrlConnection() {
         super();
     }
 
@@ -87,9 +87,6 @@ public class HttpJRE implements HttpAgent {
                         if (config.getContentType() != null) {
                             conn.addRequestProperty("Content-Type", config.getContentType());
                         }
-                        if (!config.isKeepAlive()) {
-                            conn.addRequestProperty("Connection", "close");
-                        }
                         conn.setUseCaches(false);
                         conn.setDoInput(true);
                         conn.setDoOutput(true);
@@ -100,6 +97,9 @@ public class HttpJRE implements HttpAgent {
                                 out.write(buffer, 0, l);
                             }
                         }
+                    }
+                    if (!config.isKeepAlive()) {
+                        conn.addRequestProperty("Connection", "close");
                     }
                     try (final InputStream in = conn.getInputStream()) {
                         int l;
@@ -121,11 +121,11 @@ public class HttpJRE implements HttpAgent {
 
     @Override
     public String getClientName() {
-        return "JRE HTTP " + System.getProperty("java.version");
+        return "JRE HttpUrlConnection " + System.getProperty("java.version");
     }
 
     public static void main(final String... args) throws Exception {
-        BenchmarkRunner.run(new HttpJRE(), args);
+        BenchmarkRunner.run(new JREHttpUrlConnection(), args);
     }
 
 }
