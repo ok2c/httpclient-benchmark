@@ -24,6 +24,8 @@ versions.commons_httpclient = '3.1'
 versions.httpclient4 = '4.5.11'
 versions.httpasyncclient4 = '4.1.4'
 versions.httpclient5 = '5.0'
+versions.spring_webflux2 = '2.7.6'
+versions.okhttp3 = '4.10.0'
 
 dependencies {
     implementation("commons-cli:commons-cli:${versions.commons_cli}")
@@ -35,6 +37,10 @@ dependencies {
     implementation("org.apache.httpcomponents:httpclient:${versions.httpclient4}")
     implementation("org.apache.httpcomponents:httpasyncclient:${versions.httpasyncclient4}")
     implementation("org.apache.httpcomponents.client5:httpclient5:${versions.httpclient5}")
+    implementation("org.springframework.boot:spring-boot-starter-webflux:${versions.spring_webflux2}") {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+    implementation("com.squareup.okhttp3:okhttp:${versions.okhttp3}")
 }
 
 def targetUri = project.hasProperty('benchmark.target-uri') ? project.'benchmark.target-uri' : null
@@ -73,6 +79,8 @@ task benchmark(dependsOn: 'classes') {
                 'ApacheHttpClientV5',
                 'JRE11HttpClient',
                 'JettyHttpClientV9',
+                'OkHttpClientV4',
+                'SpringBootWebClient',
                 'ApacheHttpAsyncClientV4',
                 'ApacheHttpAsyncClientV5',
         ]
