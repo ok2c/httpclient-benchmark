@@ -15,19 +15,15 @@
  */
 package com.ok2c.http.client.benchmark;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.HttpMethodRetryHandler;
-import org.apache.commons.httpclient.HttpVersion;
-import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.FileRequestEntity;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 
 public class ApacheHttpClientV3 implements HttpAgent {
 

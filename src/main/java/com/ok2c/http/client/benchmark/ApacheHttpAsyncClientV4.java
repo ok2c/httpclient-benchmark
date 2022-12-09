@@ -15,16 +15,7 @@
  */
 package com.ok2c.http.client.benchmark;
 
-import java.io.IOException;
-import java.net.URI;
-import java.nio.ByteBuffer;
-import java.util.concurrent.Semaphore;
-
-import org.apache.http.HttpException;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
+import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.client.protocol.HttpClientContext;
@@ -44,6 +35,11 @@ import org.apache.http.nio.protocol.HttpAsyncResponseConsumer;
 import org.apache.http.nio.reactor.ConnectingIOReactor;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.VersionInfo;
+
+import java.io.IOException;
+import java.net.URI;
+import java.nio.ByteBuffer;
+import java.util.concurrent.Semaphore;
 
 public class ApacheHttpAsyncClientV4 implements HttpAgent {
 

@@ -1,11 +1,12 @@
 plugins {
     id 'java'
-    id 'com.github.psxpaul.execfork' version '0.1.11'
 }
 
 repositories {
     mavenLocal()
     mavenCentral()
+    gradlePluginPortal()
+    jcenter()
 }
 
 version = '1-SNAPSHOT'
@@ -16,35 +17,39 @@ ext {
     versions = [:]
 }
 
-versions.commons_cli = '1.3.1'
+versions.commons_cli = '1.5.0'
 versions.jetty = '9.4.19.v20190610'
 versions.slf4j = '1.7.26'
 versions.commons_httpclient = '3.1'
 versions.httpclient4 = '4.5.11'
 versions.httpasyncclient4 = '4.1.4'
 versions.httpclient5 = '5.0'
+versions.spring_webflux2 = '2.7.6'
+versions.okhttp3 = '4.10.0'
 
 dependencies {
-    compile "commons-cli:commons-cli:${versions.commons_cli}"
-    compile "org.eclipse.jetty:jetty-server:${versions.jetty}"
-    compile "org.eclipse.jetty:jetty-client:${versions.jetty}"
-    compile "org.slf4j:slf4j-api:${versions.slf4j}"
-    compile "org.slf4j:slf4j-nop:${versions.slf4j}"
-    compile "commons-httpclient:commons-httpclient:${versions.commons_httpclient}"
-    compile "org.apache.httpcomponents:httpclient:${versions.httpclient4}"
-    compile "org.apache.httpcomponents:httpasyncclient:${versions.httpasyncclient4}"
-    compile "org.apache.httpcomponents.client5:httpclient5:${versions.httpclient5}"
+    implementation "commons-cli:commons-cli:${versions.commons_cli}"
+    implementation "org.eclipse.jetty:jetty-server:${versions.jetty}"
+    implementation "org.eclipse.jetty:jetty-client:${versions.jetty}"
+    implementation "org.slf4j:slf4j-api:${versions.slf4j}"
+    implementation "org.slf4j:slf4j-nop:${versions.slf4j}"
+    implementation "commons-httpclient:commons-httpclient:${versions.commons_httpclient}"
+    implementation "org.apache.httpcomponents:httpclient:${versions.httpclient4}"
+    implementation "org.apache.httpcomponents:httpasyncclient:${versions.httpasyncclient4}"
+    implementation "org.apache.httpcomponents.client5:httpclient5:${versions.httpclient5}"
+    implementation "org.springframework.boot:spring-boot-starter-webflux:${versions.spring_webflux2}"
+    implementation "com.squareup.okhttp3:okhttp:${versions.okhttp3}"
 }
 
 def targetUri = project.hasProperty('benchmark.target-uri') ? project.'benchmark.target-uri' : null
-def n = project.hasProperty('benchmark.requests') ? project.'benchmark.requests' : 2000
-def c = project.hasProperty('benchmark.concurrency') ? project.'benchmark.concurrency' : 2
+def n = project.hasProperty('benchmark.requests') ? project.'benchmark.requests' : 10000000
+def c = project.hasProperty('benchmark.concurrency') ? project.'benchmark.concurrency' : 8
 def content = project.hasProperty('benchmark.content-file') ? project.'benchmark.content-file' : null
-def contentType = project.hasProperty('benchmark.content-type') ? project.'benchmark.content-type' : 'text/plain'
+def contentType = project.hasProperty('benchmark.content-type') ? project.'benchmark.content-type' : 'application/json'
 def useEmbeddedServer = false
 def serverPort = project.hasProperty('benchmark.server.port') ? project.'benchmark.server.port' as int : 8888
 if (targetUri == null) {
-    useEmbeddedServer = true
+    useEmbeddedServer = false
 
     println 'The benchmark will be using embedded HTTP server to handle requests'
 
@@ -56,11 +61,10 @@ if (targetUri == null) {
 
 }
 
-task embeddedServer(type: com.github.psxpaul.task.JavaExecFork, dependsOn: 'classes') {
+task embeddedServer(type: JavaExec, dependsOn: 'classes') {
     classpath = sourceSets.main.runtimeClasspath
     main = 'com.ok2c.http.client.benchmark.BenchmarkServer'
     args = ["${serverPort}"]
-    waitForPort = serverPort
 }
 
 task benchmark(dependsOn: 'classes') {
@@ -68,11 +72,13 @@ task benchmark(dependsOn: 'classes') {
 
         def agents = [
                 'JREHttpUrlConnection',
+                'JRE11HttpClient',
+                'OkHttpClientV4',
+                'SpringBootWebClient',
+                'JettyHttpClientV9',
                 'ApacheHttpClientV3',
                 'ApacheHttpClientV4',
                 'ApacheHttpClientV5',
-                'JRE11HttpClient',
-                'JettyHttpClientV9',
                 'ApacheHttpAsyncClientV4',
                 'ApacheHttpAsyncClientV5',
         ]

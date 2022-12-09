@@ -15,10 +15,6 @@
  */
 package com.ok2c.http.client.benchmark;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
@@ -35,6 +31,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.VersionInfo;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 
 public class ApacheHttpClientV4 implements HttpAgent {
 

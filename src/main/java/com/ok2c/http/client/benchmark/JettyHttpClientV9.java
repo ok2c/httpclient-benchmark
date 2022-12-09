@@ -15,15 +15,15 @@
  */
 package com.ok2c.http.client.benchmark;
 
-import java.nio.ByteBuffer;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicLong;
-
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.client.api.Response;
 import org.eclipse.jetty.client.util.PathContentProvider;
 import org.eclipse.jetty.util.Jetty;
+
+import java.nio.ByteBuffer;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class JettyHttpClientV9 implements HttpAgent {
 
