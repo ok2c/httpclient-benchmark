@@ -19,4 +19,4 @@ or making the overall benchmark design fairer or preciser.
 
 #### Results
 
-Current benchmark results can be found [at the project Wiki](https://github.com/ok2c/httpclient-benchmark/wiki)
+Current benchmark results can be found [at the project Wiki](https://github.com/BencoXX/httpclient-benchmark/wiki)
