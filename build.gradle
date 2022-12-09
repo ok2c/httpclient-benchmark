@@ -1,11 +1,12 @@
 plugins {
     id 'java'
-    id 'com.github.psxpaul.execfork' version '0.1.11'
 }
 
 repositories {
     mavenLocal()
     mavenCentral()
+    gradlePluginPortal()
+    jcenter()
 }
 
 version = '1-SNAPSHOT'
@@ -16,7 +17,7 @@ ext {
     versions = [:]
 }
 
-versions.commons_cli = '1.3.1'
+versions.commons_cli = '1.5.0'
 versions.jetty = '9.4.19.v20190610'
 versions.slf4j = '1.7.26'
 versions.commons_httpclient = '3.1'
@@ -25,15 +26,15 @@ versions.httpasyncclient4 = '4.1.4'
 versions.httpclient5 = '5.0'
 
 dependencies {
-    compile "commons-cli:commons-cli:${versions.commons_cli}"
-    compile "org.eclipse.jetty:jetty-server:${versions.jetty}"
-    compile "org.eclipse.jetty:jetty-client:${versions.jetty}"
-    compile "org.slf4j:slf4j-api:${versions.slf4j}"
-    compile "org.slf4j:slf4j-nop:${versions.slf4j}"
-    compile "commons-httpclient:commons-httpclient:${versions.commons_httpclient}"
-    compile "org.apache.httpcomponents:httpclient:${versions.httpclient4}"
-    compile "org.apache.httpcomponents:httpasyncclient:${versions.httpasyncclient4}"
-    compile "org.apache.httpcomponents.client5:httpclient5:${versions.httpclient5}"
+    implementation("commons-cli:commons-cli:${versions.commons_cli}")
+    implementation("org.eclipse.jetty:jetty-server:${versions.jetty}")
+    implementation("org.eclipse.jetty:jetty-client:${versions.jetty}")
+    implementation("org.slf4j:slf4j-api:${versions.slf4j}")
+    implementation("org.slf4j:slf4j-nop:${versions.slf4j}")
+    implementation("commons-httpclient:commons-httpclient:${versions.commons_httpclient}")
+    implementation("org.apache.httpcomponents:httpclient:${versions.httpclient4}")
+    implementation("org.apache.httpcomponents:httpasyncclient:${versions.httpasyncclient4}")
+    implementation("org.apache.httpcomponents.client5:httpclient5:${versions.httpclient5}")
 }
 
 def targetUri = project.hasProperty('benchmark.target-uri') ? project.'benchmark.target-uri' : null
@@ -56,11 +57,10 @@ if (targetUri == null) {
 
 }
 
-task embeddedServer(type: com.github.psxpaul.task.JavaExecFork, dependsOn: 'classes') {
+task embeddedServer(type: JavaExec, dependsOn: 'classes') {
     classpath = sourceSets.main.runtimeClasspath
     main = 'com.ok2c.http.client.benchmark.BenchmarkServer'
     args = ["${serverPort}"]
-    waitForPort = serverPort
 }
 
 task benchmark(dependsOn: 'classes') {
