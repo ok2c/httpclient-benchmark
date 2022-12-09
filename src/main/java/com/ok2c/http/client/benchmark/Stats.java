@@ -93,7 +93,6 @@ public class Stats {
         System.out.print("Document Length:\t");
         System.out.print(stats.getContentLen());
         System.out.println(" bytes");
-        System.out.println();
         System.out.print("Concurrency level:\t");
         System.out.println(stats.getConcurrency());
         System.out.print("Time taken for tests:\t");
