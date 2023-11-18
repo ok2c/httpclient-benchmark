@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
-public class SpringBootWebClient implements HttpAgent {
+public class SpringWebFluxV2 implements HttpAgent {
 
     @Override
     public void init() throws Exception {
@@ -60,6 +60,6 @@ public class SpringBootWebClient implements HttpAgent {
     }
 
     public static void main(final String... args) throws Exception {
-        BenchmarkRunner.run(new SpringBootWebClient(), args);
+        BenchmarkRunner.run(new SpringWebFluxV2(), args);
     }
 }

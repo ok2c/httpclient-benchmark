@@ -25,11 +25,11 @@ import org.eclipse.jetty.client.api.Response;
 import org.eclipse.jetty.client.util.PathContentProvider;
 import org.eclipse.jetty.util.Jetty;
 
-public class JettyHttpClientV9 implements HttpAgent {
+public class JettyHttpClientV11 implements HttpAgent {
 
     private final HttpClient client;
 
-    public JettyHttpClientV9() {
+    public JettyHttpClientV11() {
         super();
         this.client = new HttpClient();
         this.client.setRequestBufferSize(8 * 1024);
@@ -100,7 +100,7 @@ public class JettyHttpClientV9 implements HttpAgent {
     }
 
     public static void main(final String[] args) throws Exception {
-        BenchmarkRunner.run(new JettyHttpClientV9(), args);
+        BenchmarkRunner.run(new JettyHttpClientV11(), args);
     }
 
 }

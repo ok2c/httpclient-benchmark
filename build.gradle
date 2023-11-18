@@ -17,14 +17,17 @@ ext {
     versions = [:]
 }
 
+versions.slf4j = '2.0.5'
 versions.commons_cli = '1.5.0'
-versions.jetty = '9.4.19.v20190610'
-versions.slf4j = '1.7.26'
-versions.httpclient4 = '4.5.11'
+versions.jetty = '11.0.14'
+versions.httpclient4 = '4.5.14'
 versions.httpasyncclient4 = '4.1.4'
-versions.httpclient5 = '5.0'
-versions.spring_webflux2 = '2.7.6'
+versions.httpclient5 = '5.2.1'
 versions.okhttp3 = '4.10.0'
+versions.spring_webflux2 = '2.7.6' // 2.x version is intentionally used here
+                                   // as it is the last version that uses Netty
+                                   // as its backend. In the future it might
+                                   // be replaced by straight Netty
 
 dependencies {
     implementation("commons-cli:commons-cli:${versions.commons_cli}")
@@ -54,9 +57,9 @@ task benchmark(dependsOn: 'classes') {
                 'ApacheHttpClientV4',
                 'ApacheHttpClientV5',
                 'JRE11HttpClient',
-                'JettyHttpClientV9',
+                'JettyHttpClientV11',
                 'OkHttpClientV4',
-                'SpringBootWebClient',
+                'SpringWebFluxV2',
                 'ApacheHttpAsyncClientV4',
                 'ApacheHttpAsyncClientV5',
         ]
