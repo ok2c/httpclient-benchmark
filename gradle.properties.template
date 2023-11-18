@@ -1,8 +1,4 @@
-# Use embedded server unless 'benchmark.target-uri' is specified
-benchmark.server.port = 8888
-
-# benchmark.target-uri = http://localhost:8080/
-
+benchmark.target-uri = http://localhost:8080/
 benchmark.requests = 2000000
 benchmark.concurrency = 50
 # benchmark.content-file =

@@ -28,7 +28,6 @@ versions.okhttp3 = '4.10.0'
 
 dependencies {
     implementation("commons-cli:commons-cli:${versions.commons_cli}")
-    implementation("org.eclipse.jetty:jetty-server:${versions.jetty}")
     implementation("org.eclipse.jetty:jetty-client:${versions.jetty}")
     implementation("org.slf4j:slf4j-api:${versions.slf4j}")
     implementation("org.slf4j:slf4j-nop:${versions.slf4j}")
@@ -46,26 +45,6 @@ def n = project.hasProperty('benchmark.requests') ? project.'benchmark.requests'
 def c = project.hasProperty('benchmark.concurrency') ? project.'benchmark.concurrency' : 2
 def content = project.hasProperty('benchmark.content-file') ? project.'benchmark.content-file' : null
 def contentType = project.hasProperty('benchmark.content-type') ? project.'benchmark.content-type' : 'text/plain'
-def useEmbeddedServer = false
-def serverPort = project.hasProperty('benchmark.server.port') ? project.'benchmark.server.port' as int : 8888
-if (targetUri == null) {
-    useEmbeddedServer = true
-
-    println 'The benchmark will be using embedded HTTP server to handle requests'
-
-    if (content) {
-        targetUri = "http://localhost:${serverPort}/echo"
-    } else {
-        targetUri = "http://localhost:${serverPort}/rnd?c=2000"
-    }
-
-}
-
-task embeddedServer(type: JavaExec, dependsOn: 'classes') {
-    classpath = sourceSets.main.runtimeClasspath
-    main = 'com.ok2c.http.client.benchmark.BenchmarkServer'
-    args = ["${serverPort}"]
-}
 
 task benchmark(dependsOn: 'classes') {
     doLast {
@@ -97,10 +76,6 @@ task benchmark(dependsOn: 'classes') {
             sleep(2000)
         }
     }
-}
-
-if (useEmbeddedServer) {
-    benchmark.dependsOn('embeddedServer')
 }
 
 defaultTasks 'clean', 'benchmark'
