@@ -1,0 +1,142 @@
+Date: 18.11.2023
+Git revision: d62e01d5
+JVM: OpenJDK Runtime Environment Corretto-11.0.16.9.1 (build 11.0.16.1+9-LTS)
+OS: 6.2.0-36-generic #37~22.04.1-Ubuntu
+CPU: 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz × 8
+Mem: 16.0 GiB
+
+=================================
+HTTP agent: JRE HttpUrlConnection 11.0.16.1
+=================================
+warming up...
+---------------------------------
+200000 GET requests
+---------------------------------
+Document URI:           http://localhost:8080/
+Document Length:        9754 bytes
+Concurrency level:      50
+Time taken for tests:   308.412 seconds
+Complete requests:      143167
+Failed requests:        56833
+Content transferred:    1396450918 bytes
+Requests per second:    464.207 [#/sec] (mean)
+=================================
+HTTP agent: Apache HttpClient (ver: 4.5.14)
+=================================
+warming up...
+---------------------------------
+200000 GET requests
+---------------------------------
+Document URI:           http://localhost:8080/
+Document Length:        9754 bytes
+Concurrency level:      50
+Time taken for tests:   4.913 seconds
+Complete requests:      199999
+Failed requests:        1
+Content transferred:    1950790246 bytes
+Requests per second:    40708.12 [#/sec] (mean)
+=================================
+HTTP agent: Apache HttpClient (ver: 5.2.1)
+=================================
+warming up...
+---------------------------------
+200000 GET requests
+---------------------------------
+Document URI:           http://localhost:8080/
+Document Length:        9754 bytes
+Concurrency level:      50
+Time taken for tests:   4.926 seconds
+Complete requests:      200000
+Failed requests:        0
+Content transferred:    1950800000 bytes
+Requests per second:    40600.89 [#/sec] (mean)
+=================================
+HTTP agent: JRE java.net.http 11.0.16.1
+=================================
+warming up...
+---------------------------------
+200000 GET requests
+---------------------------------
+Document URI:           http://localhost:8080/
+Document Length:        9754 bytes
+Concurrency level:      50
+Time taken for tests:   10.152 seconds
+Complete requests:      200000
+Failed requests:        0
+Content transferred:    1950800000 bytes
+Requests per second:    19700.55 [#/sec] (mean)
+=================================
+HTTP agent: Jetty 11.0.14
+=================================
+warming up...
+---------------------------------
+200000 GET requests
+---------------------------------
+Document URI:           http://localhost:8080/
+Document Length:        9754 bytes
+Concurrency level:      50
+Time taken for tests:   14.386 seconds
+Complete requests:      200000
+Failed requests:        0
+Content transferred:    1950800000 bytes
+Requests per second:    13902.405 [#/sec] (mean)
+=================================
+HTTP agent: Square’s OkHttp 4.10.0
+=================================
+warming up...
+---------------------------------
+200000 GET requests
+---------------------------------
+Document URI:           http://localhost:8080/
+Document Length:        9754 bytes
+Concurrency level:      50
+Time taken for tests:   20.818 seconds
+Complete requests:      200000
+Failed requests:        0
+Content transferred:    1950800000 bytes
+Requests per second:    9607.07 [#/sec] (mean)
+=================================
+HTTP agent: Spring WebFlux WebClient 2.7.6
+=================================
+warming up...
+---------------------------------
+200000 GET requests
+---------------------------------
+Document URI:           http://localhost:8080/
+Document Length:        9754 bytes
+Concurrency level:      50
+Time taken for tests:   27.611 seconds
+Complete requests:      200000
+Failed requests:        0
+Content transferred:    1950800000 bytes
+Requests per second:    7243.4897 [#/sec] (mean)
+=================================
+HTTP agent: Apache HttpAsyncClient (ver: 4.1.4)
+=================================
+warming up...
+---------------------------------
+200000 GET requests
+---------------------------------
+Document URI:           http://localhost:8080/
+Document Length:        9754 bytes
+Concurrency level:      50
+Time taken for tests:   5.494 seconds
+Complete requests:      200000
+Failed requests:        0
+Content transferred:    1950800000 bytes
+Requests per second:    36403.348 [#/sec] (mean)
+=================================
+HTTP agent: Apache HttpAsyncClient (ver: 5.2.1)
+=================================
+warming up...
+---------------------------------
+200000 GET requests
+---------------------------------
+Document URI:           http://localhost:8080/
+Document Length:        9754 bytes
+Concurrency level:      50
+Time taken for tests:   6.365 seconds
+Complete requests:      200000
+Failed requests:        0
+Content transferred:    1950800000 bytes
+Requests per second:    31421.84 [#/sec] (mean)
