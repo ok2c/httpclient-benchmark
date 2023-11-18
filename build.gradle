@@ -20,7 +20,6 @@ ext {
 versions.commons_cli = '1.5.0'
 versions.jetty = '9.4.19.v20190610'
 versions.slf4j = '1.7.26'
-versions.commons_httpclient = '3.1'
 versions.httpclient4 = '4.5.11'
 versions.httpasyncclient4 = '4.1.4'
 versions.httpclient5 = '5.0'
@@ -33,7 +32,6 @@ dependencies {
     implementation("org.eclipse.jetty:jetty-client:${versions.jetty}")
     implementation("org.slf4j:slf4j-api:${versions.slf4j}")
     implementation("org.slf4j:slf4j-nop:${versions.slf4j}")
-    implementation("commons-httpclient:commons-httpclient:${versions.commons_httpclient}")
     implementation("org.apache.httpcomponents:httpclient:${versions.httpclient4}")
     implementation("org.apache.httpcomponents:httpasyncclient:${versions.httpasyncclient4}")
     implementation("org.apache.httpcomponents.client5:httpclient5:${versions.httpclient5}")
@@ -74,7 +72,6 @@ task benchmark(dependsOn: 'classes') {
 
         def agents = [
                 'JREHttpUrlConnection',
-                'ApacheHttpClientV3',
                 'ApacheHttpClientV4',
                 'ApacheHttpClientV5',
                 'JRE11HttpClient',
