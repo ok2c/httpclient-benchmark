@@ -6,12 +6,13 @@ repositories {
     mavenLocal()
     mavenCentral()
     gradlePluginPortal()
-    jcenter()
 }
 
 version = '1-SNAPSHOT'
 
-sourceCompatibility = '11'
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+}
 
 dependencies {
     implementation(libs.commons.cli)
