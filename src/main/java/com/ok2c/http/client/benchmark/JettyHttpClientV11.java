@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.client.api.Response;
-import org.eclipse.jetty.client.util.PathContentProvider;
+import org.eclipse.jetty.client.util.PathRequestContent;
 import org.eclipse.jetty.util.Jetty;
 
 public class JettyHttpClientV11 implements HttpAgent {
@@ -59,12 +59,12 @@ public class JettyHttpClientV11 implements HttpAgent {
             final Request request = this.client.newRequest(config.getUri());
             if (config.getFile() != null) {
                 request.method("PUT");
-                request.content(new PathContentProvider(config.getContentType(), config.getFile().toPath()));
+                request.body(new PathRequestContent(config.getContentType(), config.getFile().toPath()));
             } else {
                 request.method("GET");
             }
             if (!config.isKeepAlive()) {
-                request.header("Connection", "close");
+                request.headers(h -> h.add("Connection", "close"));
             }
             final AtomicLong contentLen = new AtomicLong(0);
             request.onResponseContentAsync(new Response.Listener.Adapter() {

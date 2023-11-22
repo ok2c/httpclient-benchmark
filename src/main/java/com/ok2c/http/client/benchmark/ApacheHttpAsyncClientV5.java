@@ -21,7 +21,8 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.Semaphore;
 
 import org.apache.hc.client5.http.async.methods.AbstractBinResponseConsumer;
-import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.config.ConnectionConfig;
+import org.apache.hc.client5.http.config.TlsConfig;
 import org.apache.hc.client5.http.impl.async.CloseableHttpAsyncClient;
 import org.apache.hc.client5.http.impl.async.HttpAsyncClients;
 import org.apache.hc.client5.http.impl.nio.PoolingAsyncClientConnectionManager;
@@ -53,7 +54,6 @@ public class ApacheHttpAsyncClientV5 implements HttpAgent {
         this.mgr = PoolingAsyncClientConnectionManagerBuilder.create()
                 .build();
         this.httpclient = HttpAsyncClients.createMinimal(
-                HttpVersionPolicy.FORCE_HTTP_1,
                 H2Config.DEFAULT,
                 Http1Config.custom()
                         .setBufferSize(8 * 1024)
@@ -79,15 +79,18 @@ public class ApacheHttpAsyncClientV5 implements HttpAgent {
 
     @Override
     public Stats execute(final BenchmarkConfig config) throws Exception {
+        this.mgr.setDefaultTlsConfig(TlsConfig.custom()
+                .setVersionPolicy(HttpVersionPolicy.FORCE_HTTP_1)
+                .build());
+        this.mgr.setDefaultConnectionConfig(ConnectionConfig.custom()
+                .setSocketTimeout(Timeout.ofMilliseconds(config.getTimeout()))
+                .setConnectTimeout(Timeout.ofMilliseconds(config.getTimeout()))
+                .build());
         this.mgr.setDefaultMaxPerRoute(config.getConcurrency());
         this.mgr.setMaxTotal(2000);
         final Stats stats = new Stats(config.getRequests(), config.getConcurrency());
 
         final URI target = config.getUri();
-        final RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectTimeout(Timeout.ofMilliseconds(config.getTimeout()))
-                .setResponseTimeout(Timeout.ofMilliseconds(config.getTimeout()))
-                .build();
 
         final Semaphore semaphore = new Semaphore(config.getConcurrency());
         for (int i = 0; i < config.getRequests(); i++) {
@@ -105,7 +108,6 @@ public class ApacheHttpAsyncClientV5 implements HttpAgent {
             }
             final AsyncRequestProducer request = requestBuilder.build();
             final HttpClientContext clientContext = HttpClientContext.create();
-            clientContext.setRequestConfig(requestConfig);
             semaphore.acquire();
             this.httpclient.execute(
                     request,

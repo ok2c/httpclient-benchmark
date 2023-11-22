@@ -7,6 +7,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicLong;
 
 import okhttp3.Dispatcher;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -27,7 +28,9 @@ public class OkHttpClientV4 implements HttpAgent {
         if (config.getFile() == null) {
             requestBuilder.method("GET", null);
         } else {
-            requestBuilder.method("PUT", RequestBody.create(null, Files.readAllBytes(config.getFile().toPath())));
+            requestBuilder.method("PUT", RequestBody.create(
+                    Files.readAllBytes(config.getFile().toPath()),
+                    config.getContentType() != null ? MediaType.parse(config.getContentType()) : null));
             if (config.getContentType() != null) {
                 requestBuilder.header("Content-Type", config.getContentType());
             }

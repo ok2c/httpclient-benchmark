@@ -14,6 +14,10 @@ java {
     sourceCompatibility = JavaVersion.VERSION_11
 }
 
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs.add("-Xlint:deprecation")
+}
+
 dependencies {
     implementation(libs.commons.cli)
     implementation(libs.slf4j.api)

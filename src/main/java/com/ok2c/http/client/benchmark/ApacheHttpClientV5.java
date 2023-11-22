@@ -19,9 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
-import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.DefaultHttpResponseParserFactory;
 import org.apache.hc.client5.http.impl.io.ManagedHttpClientConnectionFactory;
@@ -29,6 +28,7 @@ import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
 import org.apache.hc.core5.http.ClassicHttpRequest;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HeaderElements;
 import org.apache.hc.core5.http.HttpEntity;
@@ -36,7 +36,6 @@ import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.HttpHost;
 import org.apache.hc.core5.http.config.CharCodingConfig;
 import org.apache.hc.core5.http.config.Http1Config;
-import org.apache.hc.core5.http.io.SocketConfig;
 import org.apache.hc.core5.http.io.entity.FileEntity;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.io.CloseMode;
@@ -75,8 +74,9 @@ public class ApacheHttpClientV5 implements HttpAgent {
     public Stats execute(final BenchmarkConfig config) throws Exception {
         this.mgr.setMaxTotal(2000);
         this.mgr.setDefaultMaxPerRoute(config.getConcurrency());
-        this.mgr.setDefaultSocketConfig(SocketConfig.custom()
-                .setSoTimeout(Timeout.ofMilliseconds(config.getTimeout()))
+        this.mgr.setDefaultConnectionConfig(ConnectionConfig.custom()
+                .setSocketTimeout(Timeout.ofMilliseconds(config.getTimeout()))
+                .setConnectTimeout(Timeout.ofMilliseconds(config.getTimeout()))
                 .build());
 
         final Stats stats = new Stats(config.getRequests(), config.getConcurrency());
@@ -111,10 +111,6 @@ public class ApacheHttpClientV5 implements HttpAgent {
             final URI target = config.getUri();
 
             final HttpHost targetHost = new HttpHost(target.getScheme(), target.getHost(), target.getPort());
-            final RequestConfig requestConfig = RequestConfig.custom()
-                    .setConnectTimeout(Timeout.ofMilliseconds(config.getTimeout()))
-                    .setResponseTimeout(Timeout.ofMilliseconds(config.getTimeout()))
-                    .build();
 
             while (!this.stats.isComplete()) {
                 final ClassicRequestBuilder requestBuilder;
@@ -132,10 +128,9 @@ public class ApacheHttpClientV5 implements HttpAgent {
 
                 final ClassicHttpRequest request = requestBuilder.build();
                 final HttpClientContext clientContext = HttpClientContext.create();
-                clientContext.setRequestConfig(requestConfig);
 
                 long contentLen = 0;
-                try (final CloseableHttpResponse response = httpclient.execute(targetHost, request, clientContext)) {
+                try (final ClassicHttpResponse response = httpclient.executeOpen(targetHost, request, clientContext)) {
                     final HttpEntity entity = response.getEntity();
                     if (entity != null) {
                         final InputStream instream = entity.getContent();
