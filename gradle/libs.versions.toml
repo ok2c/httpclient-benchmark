@@ -1,0 +1,26 @@
+[versions]
+
+slf4j = "2.0.5"
+commons_cli = "1.5.0"
+httpclient4 = "4.5.14"
+httpasyncclient4 = "4.1.4"
+httpclient5 = "5.2.1"
+jetty = "11.0.14"
+okhttp = "4.10.0"
+spring_webflux2 = "2.7.6"   # 2.x version is intentionally used here
+                            # as it is the last version that uses Netty
+                            # as its backend. In the future it might
+                            # be replaced by straight Netty
+
+
+[libraries]
+slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
+slf4j-nop = { group = "org.slf4j", name = "slf4j-nop", version.ref = "slf4j" }
+commons-cli = { group = "commons-cli", name = "commons-cli", version.ref = "commons_cli" }
+httpclient4 = { group = "org.apache.httpcomponents", name = "httpclient", version.ref = "httpclient4" }
+httpasyncclient4 = { group = "org.apache.httpcomponents", name = "httpasyncclient", version.ref = "httpasyncclient4" }
+httpclient5 = { group = "org.apache.httpcomponents.client5", name = "httpclient5", version.ref = "httpclient5" }
+jetty = { group = "org.eclipse.jetty", name = "jetty-client", version.ref = "jetty" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+spring-webflux2 = { group = "org.springframework.boot", name = "spring-boot-starter-webflux", version.ref = "spring_webflux2" }
+

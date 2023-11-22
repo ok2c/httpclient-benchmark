@@ -13,34 +13,18 @@ version = '1-SNAPSHOT'
 
 sourceCompatibility = '11'
 
-ext {
-    versions = [:]
-}
-
-versions.slf4j = '2.0.5'
-versions.commons_cli = '1.5.0'
-versions.jetty = '11.0.14'
-versions.httpclient4 = '4.5.14'
-versions.httpasyncclient4 = '4.1.4'
-versions.httpclient5 = '5.2.1'
-versions.okhttp3 = '4.10.0'
-versions.spring_webflux2 = '2.7.6' // 2.x version is intentionally used here
-                                   // as it is the last version that uses Netty
-                                   // as its backend. In the future it might
-                                   // be replaced by straight Netty
-
 dependencies {
-    implementation("commons-cli:commons-cli:${versions.commons_cli}")
-    implementation("org.eclipse.jetty:jetty-client:${versions.jetty}")
-    implementation("org.slf4j:slf4j-api:${versions.slf4j}")
-    implementation("org.slf4j:slf4j-nop:${versions.slf4j}")
-    implementation("org.apache.httpcomponents:httpclient:${versions.httpclient4}")
-    implementation("org.apache.httpcomponents:httpasyncclient:${versions.httpasyncclient4}")
-    implementation("org.apache.httpcomponents.client5:httpclient5:${versions.httpclient5}")
-    implementation("org.springframework.boot:spring-boot-starter-webflux:${versions.spring_webflux2}") {
+    implementation(libs.commons.cli)
+    implementation(libs.slf4j.api)
+    implementation(libs.slf4j.nop)
+    implementation(libs.httpclient4)
+    implementation(libs.httpasyncclient4)
+    implementation(libs.httpclient5)
+    implementation(libs.jetty)
+    implementation(libs.okhttp)
+    implementation(libs.spring.webflux2) {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
     }
-    implementation("com.squareup.okhttp3:okhttp:${versions.okhttp3}")
 }
 
 def targetUri = project.hasProperty('benchmark.target-uri') ? project.'benchmark.target-uri' : null
