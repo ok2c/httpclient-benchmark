@@ -1,5 +1,0 @@
-benchmark.target-uri = http://localhost:8080/
-benchmark.requests = 2000000
-benchmark.concurrency = 50
-# benchmark.content-file =
-# benchmark.content-type = text/plain
