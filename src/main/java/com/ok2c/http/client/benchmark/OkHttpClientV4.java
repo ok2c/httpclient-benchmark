@@ -75,7 +75,7 @@ public class OkHttpClientV4 implements HttpAgent {
 
     @Override
     public String getClientName() {
-        return "Square’s OkHttp 4.10.0";
+        return "Square’s OkHttp 4.x";
     }
 
     public static void main(final String... args) throws Exception {

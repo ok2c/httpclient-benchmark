@@ -56,7 +56,7 @@ public class SpringWebFluxV2 implements HttpAgent {
 
     @Override
     public String getClientName() {
-        return "Spring WebFlux WebClient 2.7.6";
+        return "Spring WebFlux WebClient 2.x";
     }
 
     public static void main(final String... args) throws Exception {
