@@ -116,7 +116,7 @@ public class JRE11HttpClient implements HttpAgent {
 
                     }));
             future.whenComplete((response, throwable) -> {
-                if (response.statusCode() == 200) {
+                if (response != null && response.statusCode() == 200) {
                     stats.success(contentLen.get());
                 } else {
                     stats.failure(contentLen.get());

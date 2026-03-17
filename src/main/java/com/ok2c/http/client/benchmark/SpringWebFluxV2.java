@@ -29,26 +29,30 @@ public class SpringWebFluxV2 implements HttpAgent {
         for (int i = 0; i < config.getRequests(); i++) {
             semaphore.acquire();
             final AtomicLong contentLen = new AtomicLong(0);
-            webClient.get().uri(config.getUri())
-                    .headers(httpHeaders -> {
-                        if (config.getFile() != null) {
-                            httpHeaders.set("Content-Type", config.getContentType());
-                        }
-                        if (!config.isKeepAlive()) {
-                            httpHeaders.set("Connection", "close");
-                        }
-                    })
-                    .retrieve()
-                    .bodyToMono(ByteArrayResource.class)
-                    .doOnSuccess(response -> {
-                        contentLen.addAndGet(response.contentLength());
-                        stats.success(contentLen.get());
-                    })
-                    .doOnError(response -> {
-                        stats.failure(contentLen.get());
-                    }).doFinally(signal -> {
-                        semaphore.release();
-                    }).publishOn(scheduler).block();
+            try {
+                webClient.get().uri(config.getUri())
+                        .headers(httpHeaders -> {
+                            if (config.getFile() != null) {
+                                httpHeaders.set("Content-Type", config.getContentType());
+                            }
+                            if (!config.isKeepAlive()) {
+                                httpHeaders.set("Connection", "close");
+                            }
+                        })
+                        .retrieve()
+                        .bodyToMono(ByteArrayResource.class)
+                        .doOnSuccess(response -> {
+                            contentLen.addAndGet(response.contentLength());
+                            stats.success(contentLen.get());
+                        })
+                        .doOnError(response -> {
+                            stats.failure(contentLen.get());
+                        }).doFinally(signal -> {
+                            semaphore.release();
+                        }).publishOn(scheduler).block();
+            } catch (Exception ex) {
+                stats.failure(0);
+            }
         }
         stats.waitFor();
         return stats;

@@ -65,6 +65,8 @@ public class OkHttpClientV4 implements HttpAgent {
                 }
                 contentLen.addAndGet(response.body().bytes().length);
                 stats.success(contentLen.get());
+            } catch (IOException ex){
+                stats.failure(contentLen.get());
             } finally {
                 semaphore.release();
             }
